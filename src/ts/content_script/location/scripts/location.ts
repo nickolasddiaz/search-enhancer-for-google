@@ -12,6 +12,7 @@ class Class {
     private params = new URLSearchParams(globalThis.location.search);
     private tbm: string | null = this.params.get('tbm');
     private tbs: string | null = this.params.get('tbs');
+    private udm: string | null = this.params.get('udm');
     private search_string_is_present: boolean = globalThis.location.href.includes('search?');
     private is_search_by_img_all_page: boolean = n(this.tbs) && this.tbs.includes('sbi:');
     private imgs = sa<HTMLImageElement>('#search img');
@@ -22,13 +23,19 @@ class Class {
     public is_search_by_img_page: boolean =
         this.search_string_is_present && this.is_search_by_img_all_page;
 
-    public is_videos_page: boolean = this.search_string_is_present && this.tbm === 'vid';
+    public is_videos_page: boolean = this.search_string_is_present && this.udm === '7';
 
-    public is_books_page: boolean = this.search_string_is_present && this.tbm === 'bks';
+    public is_books_page: boolean = this.search_string_is_present && this.udm === '36';
 
     public is_news_page: boolean = this.search_string_is_present && this.tbm === 'nws';
 
-    public is_shopping_page: boolean = this.search_string_is_present && this.tbm === 'shop';
+    public is_shopping_page: boolean = this.search_string_is_present && this.udm === '28';
+
+    public is_web_page: boolean = this.search_string_is_present && this.udm === '14';
+
+    public is_forums_page: boolean = this.search_string_is_present && this.udm === '18';
+
+    public is_short_videos_page: boolean = this.search_string_is_present && this.udm === '39';
 
     public is_imgs_page: boolean = n(this.imgs) ? this.imgs.length >= 100 : false;
 
@@ -38,7 +45,32 @@ class Class {
         !this.is_videos_page &&
         !this.is_books_page &&
         !this.is_news_page &&
-        !this.is_shopping_page;
+        !this.is_shopping_page &&
+        !this.is_web_page &&
+        !this.is_forums_page &&
+        !this.is_short_videos_page;
+
+    public is_native_infinite_scroll_results: boolean =
+        this.is_videos_page || this.is_shopping_page || this.is_short_videos_page;
+
+    public is_native_favicon_results: boolean =
+        this.is_all_page || this.is_forums_page || this.is_web_page;
+
+    public is_jump_to_related_searches_side_panel_results: boolean =
+        this.is_all_page ||
+        this.is_search_by_img_page ||
+        this.is_books_page ||
+        this.is_news_page ||
+        this.is_web_page ||
+        this.is_forums_page;
+
+    public is_page_number_side_panel_results: boolean =
+        this.is_all_page ||
+        this.is_search_by_img_page ||
+        this.is_books_page ||
+        this.is_news_page ||
+        this.is_web_page ||
+        this.is_forums_page;
 
     public is_search_results: boolean =
         this.is_all_page ||
@@ -46,14 +78,19 @@ class Class {
         this.is_videos_page ||
         this.is_books_page ||
         this.is_news_page ||
-        this.is_shopping_page;
+        this.is_shopping_page ||
+        this.is_web_page ||
+        this.is_forums_page ||
+        this.is_short_videos_page;
 
     public is_icons_search_results: boolean =
         this.is_all_page ||
         this.is_search_by_img_page ||
         this.is_videos_page ||
         this.is_news_page ||
-        this.is_shopping_page;
+        this.is_shopping_page ||
+        this.is_web_page ||
+        this.is_forums_page;
 
     public is_non_standard_search_results: boolean = this.is_news_page || this.is_shopping_page;
 
@@ -71,6 +108,12 @@ class Class {
                 this.current_location = 'news';
             } else if (this.is_shopping_page) {
                 this.current_location = 'shopping';
+            } else if (this.is_web_page) {
+                this.current_location = 'web';
+            } else if (this.is_forums_page) {
+                this.current_location = 'forums';
+            } else if (this.is_short_videos_page) {
+                this.current_location = 'short_videos';
             } else if (this.is_imgs_page) {
                 this.current_location = 'imgs';
             }

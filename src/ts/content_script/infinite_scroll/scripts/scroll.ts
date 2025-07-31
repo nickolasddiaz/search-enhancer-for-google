@@ -1,5 +1,10 @@
 import { s_viewport } from '@loftyshaky/shared/shared';
-import { d_infinite_scroll, s_el_parser, s_infinite_scroll } from 'content_script/internal';
+import {
+    d_infinite_scroll,
+    s_el_parser,
+    s_infinite_scroll,
+    s_location,
+} from 'content_script/internal';
 
 class Class {
     private static instance: Class;
@@ -28,7 +33,14 @@ class Class {
                 }
                 */
 
-                s_infinite_scroll.Iframe.insert();
+                if (
+                    n(s_el_parser.ElParser.more_results_btn) &&
+                    s_location.Location.is_native_infinite_scroll_results
+                ) {
+                    s_el_parser.ElParser.more_results_btn.click();
+                } else {
+                    s_infinite_scroll.Iframe.insert();
+                }
             } else if (
                 !n(s_el_parser.ElParser.next_page_href) &&
                 s_infinite_scroll.MoreResults.check_if_last_page_or_loading()

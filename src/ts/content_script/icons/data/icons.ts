@@ -269,7 +269,7 @@ class Class {
         { type }: { type: i_icons.IconType },
     ): string {
         return (
-            (!s_location.Location.is_all_page || type === 'server_locations') &&
+            (!s_location.Location.is_native_favicon_results || type === 'server_locations') &&
             ((type === 'favicons' && s_location.Location.is_news_page) ||
                 data.settings.prefs[`${type}_is_visible`])
         );

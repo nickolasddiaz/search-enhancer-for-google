@@ -2,7 +2,13 @@ import React, { MouseEvent, KeyboardEvent, useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { prevent_default } from '@loftyshaky/shared/shared';
-import { c_side_panel, d_side_panel, s_tab_index, p_side_panel } from 'content_script/internal';
+import {
+    c_side_panel,
+    d_side_panel,
+    s_location,
+    s_tab_index,
+    p_side_panel,
+} from 'content_script/internal';
 
 export const Body: React.FunctionComponent<p_side_panel.Body> = observer((props) => {
     const { on_render } = props;
@@ -53,7 +59,8 @@ export const Body: React.FunctionComponent<p_side_panel.Body> = observer((props)
                     }}
                 />
             ) : undefined}
-            {data.settings.prefs.jump_to_related_searches_btn_is_visible ? (
+            {s_location.Location.is_jump_to_related_searches_side_panel_results &&
+            data.settings.prefs.jump_to_related_searches_btn_is_visible ? (
                 <c_side_panel.Btn
                     name='jump_to_related_searches'
                     position_remembered_cls={d_side_panel.RelatedSearches.position_remembered_cls}
@@ -68,7 +75,8 @@ export const Body: React.FunctionComponent<p_side_panel.Body> = observer((props)
                     }}
                 />
             ) : undefined}
-            {data.settings.prefs.enable_infinite_scrolling &&
+            {s_location.Location.is_page_number_side_panel_results &&
+            data.settings.prefs.enable_infinite_scrolling &&
             data.settings.prefs.page_indicator_is_visible ? (
                 <>
                     <c_side_panel.Page name='current' val={d_side_panel.Page.current} />

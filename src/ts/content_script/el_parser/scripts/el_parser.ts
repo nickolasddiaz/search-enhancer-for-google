@@ -269,7 +269,7 @@ class Class {
 
     private get_related_searches_el = (): void =>
         err(() => {
-            this.related_searches_el = s<HTMLElement>('#brs, #bres');
+            this.related_searches_el = s<HTMLElement>('#search .wyccme');
         }, 'seg_1034');
 
     public get_more_results_btn = (): void =>
