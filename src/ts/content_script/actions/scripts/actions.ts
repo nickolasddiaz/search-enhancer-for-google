@@ -68,7 +68,8 @@ class Class {
                 if (s_location.Location.is_icons_search_results) {
                     s_roots.Roots.init({ name: 'icons' });
                 }
-                if (s_location.Location.is_all_page || s_location.Location.is_news_page) {
+
+                if (s_location.Location.is_native_favicon_results_show_or_hide_native_favicons) {
                     s_icons.icons.show_or_hide_native_favicons();
                 }
 

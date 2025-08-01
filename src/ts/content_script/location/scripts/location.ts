@@ -56,6 +56,9 @@ class Class {
     public is_native_favicon_results: boolean =
         this.is_all_page || this.is_forums_page || this.is_web_page;
 
+    public is_native_favicon_results_show_or_hide_native_favicons: boolean =
+        this.is_native_favicon_results || this.is_news_page;
+
     public is_jump_to_related_searches_side_panel_results: boolean =
         this.is_all_page ||
         this.is_search_by_img_page ||
