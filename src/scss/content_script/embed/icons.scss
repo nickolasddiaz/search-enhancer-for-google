@@ -23,7 +23,7 @@
         height: $icon_size;
         background-color: white;
 
-        &:nth-child(1) {
+        &.refresh_svg__refresh:nth-child(1) {
             fill: white !important;
             height: $icon_size_2;
             width: $icon_size_2;
@@ -34,7 +34,7 @@
     &.favicons svg {
         fill: $icon_placeholder_color_1;
 
-        &:nth-child(1) {
+        &.refresh_svg__refresh:nth-child(1) {
             background-color: $icon_placeholder_color_1;
         }
     }
@@ -43,7 +43,7 @@
     &.server_locations svg {
         fill: $icon_placeholder_color_2;
 
-        &:nth-child(1) {
+        &.refresh_svg__refresh:nth-child(1) {
             background-color: $icon_placeholder_color_2;
         }
     }
