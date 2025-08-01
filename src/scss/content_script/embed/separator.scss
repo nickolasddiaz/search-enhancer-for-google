@@ -6,23 +6,17 @@
     font-size: $font_size;
 
     &.all,
-    &.search_by_img {
-        margin-bottom: $search_result_offset_all;
-    }
-
-    &.videos {
-        margin-bottom: $search_result_offset_videos - 9px;
+    &.search_by_img,
+    &.forums,
+    &.web {
+        margin-bottom: $search_result_separator_offset_all;
     }
 
     &.books {
-        margin-bottom: $search_result_offset_books;
+        margin-bottom: $search_result_separator_offset_books;
     }
 
     &.news {
-        margin-bottom: $search_result_offset_news;
-    }
-
-    &.shopping {
-        margin-bottom: $search_result_offset_shopping - 8px;
+        margin-bottom: $search_result_separator_offset_news;
     }
 }

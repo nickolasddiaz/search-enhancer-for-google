@@ -4,23 +4,17 @@
     width: 100%;
 
     &.all_#{$app_id},
-    &.search_by_img_#{$app_id} {
-        margin-bottom: $search_result_offset_all;
-    }
-
-    &.videos_#{$app_id} {
-        margin-bottom: $search_result_offset_videos;
+    &.search_by_img_#{$app_id},
+    &.forums_#{$app_id},
+    &.web_#{$app_id} {
+        margin-bottom: $search_result_iframe_offset_all;
     }
 
     &.books_#{$app_id} {
-        margin-bottom: $search_result_offset_books;
+        margin-bottom: $search_result_iframe_offset_books;
     }
 
     &.news_#{$app_id} {
-        margin-bottom: $search_result_offset_news;
-    }
-
-    &.shopping_#{$app_id} {
-        margin-bottom: $search_result_offset_shopping;
+        margin-bottom: $search_result_iframe_offset_news;
     }
 }
