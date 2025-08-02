@@ -18,7 +18,7 @@ class Manifest {
                         'font_face.css',
                         'error.css',
                         'content_script_css.css',
-                        'dependencies_css.css',
+                        ...(browser === 'edge' ? [] : ['dependencies_css.css']),
                         'icons.css',
                         'separator.css',
                         'google_iframe_inner.css',
