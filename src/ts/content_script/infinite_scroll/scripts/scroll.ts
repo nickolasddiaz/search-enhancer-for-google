@@ -25,19 +25,11 @@ class Class {
                 document.body.scrollHeight - document.documentElement.scrollTop <=
                     s_viewport.Viewport.get_dim({ dim: 'height' }) + 600
             ) {
-                /*
-                if (s_location.Main.is_all_page) {
-                    s_infinite_scroll.MoreResults.load_next_page();
-                } else {
-                    s_infinite_scroll.Iframe.insert();
-                }
-                */
-
                 if (
                     n(s_el_parser.ElParser.more_results_btn) &&
                     s_location.Location.is_native_infinite_scroll_results
                 ) {
-                    s_el_parser.ElParser.more_results_btn.click();
+                    s_infinite_scroll.MoreResults.load_next_page();
                 } else {
                     s_infinite_scroll.Iframe.insert();
                 }
