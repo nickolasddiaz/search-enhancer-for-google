@@ -453,35 +453,33 @@ class Class {
         err(() => {
             if (!this.loaded_all_pages) {
                 const iframe_doc: Document | undefined = s_infinite_scroll.Iframe.get_iframe_doc();
-                const page_btn_els = sab<HTMLLinkElement>(
+                const next_page_el = sb<HTMLLinkElement>(
                     iframe_doc || document,
-                    '[href*="start="]:not([ping])', // :not([ping]) - prevent selecting "Try without personalisation" link in the footer
+                    '#pnnext', // [href*="start="]:not([ping])' - old sab selector, not working in edge:not([ping]) - prevent selecting "Try without personalisation" link in the footer
                 );
 
-                if (n(page_btn_els)) {
-                    const next_page_el = last(page_btn_els);
+                const next_page_el_href: string | undefined = n(next_page_el)
+                    ? next_page_el.href
+                    : undefined;
 
-                    if (n(next_page_el)) {
-                        const omnibox_start_val: number = this.get_page_val({
-                            next_page_href: globalThis.location.href,
-                        });
-                        const next_start_val: number = this.get_page_val({
-                            next_page_href: next_page_el.href,
-                        });
-                        const previous_start_val: number = this.get_page_val({
-                            next_page_href: this.next_page_href,
-                        });
+                const omnibox_start_val: number = this.get_page_val({
+                    next_page_href: globalThis.location.href,
+                });
+                const next_start_val: number = this.get_page_val({
+                    next_page_href: next_page_el_href,
+                });
+                const previous_start_val: number = this.get_page_val({
+                    next_page_href: this.next_page_href,
+                });
 
-                        if (
-                            next_start_val > omnibox_start_val &&
-                            (!n(this.next_page_href) || next_start_val > previous_start_val)
-                        ) {
-                            this.next_page_href = next_page_el.href;
-                        } else {
-                            this.loaded_all_pages = true;
-                            this.next_page_href = undefined;
-                        }
-                    }
+                if (
+                    next_start_val > omnibox_start_val &&
+                    (!n(this.next_page_href) || next_start_val > previous_start_val)
+                ) {
+                    this.next_page_href = next_page_el_href;
+                } else {
+                    this.loaded_all_pages = true;
+                    this.next_page_href = undefined;
                 }
             }
         }, 'seg_1040');
