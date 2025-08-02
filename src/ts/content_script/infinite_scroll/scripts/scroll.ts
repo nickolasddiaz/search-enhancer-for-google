@@ -34,6 +34,7 @@ class Class {
                     s_infinite_scroll.Iframe.insert();
                 }
             } else if (
+                !s_location.Location.is_native_infinite_scroll_results &&
                 !n(s_el_parser.ElParser.next_page_href) &&
                 s_infinite_scroll.MoreResults.check_if_last_page_or_loading()
             ) {
