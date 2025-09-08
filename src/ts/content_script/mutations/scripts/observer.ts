@@ -1,5 +1,5 @@
 import { s_suffix } from 'shared_clean/internal';
-import { s_actions, s_infinite_scroll, s_location } from 'content_script/internal';
+import { s_actions, s_ai_block, s_infinite_scroll, s_location } from 'content_script/internal';
 
 const observer = new MutationObserver((mutations): void =>
     err(() => {
@@ -7,6 +7,7 @@ const observer = new MutationObserver((mutations): void =>
             (mutation): Promise<void> =>
                 err_async(async () => {
                     if (
+                        !x.matches(mutation.target as HTMLElement, 'head') &&
                         !x.matches(
                             mutation.target as HTMLElement,
                             `.${new s_suffix.Suffix('root_parent').result}`,
@@ -29,6 +30,7 @@ const observer = new MutationObserver((mutations): void =>
                             `.${new s_suffix.Suffix('spinner').result}`,
                         )
                     ) {
+                        s_ai_block.Visibility.set();
                         s_actions.Actions.run_reload_actions_2_debounce();
 
                         if (s_location.Location.is_shopping_page) {
@@ -42,7 +44,7 @@ const observer = new MutationObserver((mutations): void =>
     }, 'seg_1088'),
 );
 
-observer.observe(document.body, {
+observer.observe(document, {
     subtree: true,
     childList: true,
 });

@@ -87,6 +87,10 @@ class Class {
                                 event_callback: d_sections.Val.change,
                             }),
                             new o_inputs.Checkbox({
+                                name: 'ai_overview_is_visible',
+                                event_callback: d_sections.Val.change,
+                            }),
+                            new o_inputs.Checkbox({
                                 name: 'scroll_to_top_btn_is_visible',
                                 include_help: true,
                                 alt_help_msg: ext.msg('scroll_to_top_title'),

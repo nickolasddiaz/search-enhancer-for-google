@@ -4,6 +4,7 @@ import { d_data as d_data_loftyshaky_shared } from '@loftyshaky/shared/shared';
 import { d_data, s_css_vars } from 'shared_clean/internal';
 import {
     d_infinite_scroll,
+    s_ai_block,
     s_el_parser,
     s_icons,
     s_infinite_scroll,
@@ -51,6 +52,7 @@ class Class {
         err_async(async () => {
             if (d_data.Manipulation.allow_load_settings) {
                 await d_data_loftyshaky_shared.Settings.set_from_storage();
+                s_ai_block.Visibility.set();
                 s_css_vars.CssVars.set();
                 s_el_parser.ElParser.get_els();
 

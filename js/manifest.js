@@ -240,7 +240,7 @@ class Manifest {
             ],
             content_scripts: [
                 {
-                    run_at: 'document_end',
+                    run_at: 'document_start',
                     js: ['env.js', 'content_script.js'],
                     css: ['content_script_css.css'],
                     matches: [

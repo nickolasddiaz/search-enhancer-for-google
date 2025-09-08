@@ -17,6 +17,7 @@ export interface Prefs {
     enable_infinite_scrolling: boolean;
     enable_btn_is_visible: boolean;
     jump_to_related_searches_btn_is_visible: boolean;
+    ai_overview_is_visible: boolean;
     page_indicator_is_visible: boolean;
     page_separators_is_visible: boolean;
     favicons_is_visible: boolean;

@@ -38,6 +38,9 @@
     "server_locations_is_visible_label_text": {
         "message": "Show server locations"
     },
+    "ai_overview_is_visible_label_text": {
+        "message": "Show AI overview"
+    },
     "scroll_to_top_btn_is_visible_label_text": {
         "message": "Show scroll to top button"
     },

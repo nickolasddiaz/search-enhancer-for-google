@@ -408,6 +408,10 @@ class Class {
                     new_key: 'persistent_service_worker',
                     new_val: false,
                 }),
+                new o_schema.TransformItem({
+                    new_key: 'ai_overview_is_visible',
+                    new_val: true,
+                }),
             ];
             const updated_prefs: i_data.Prefs = await d_schema.Schema.transform({
                 data_obj: updated_settings.prefs,

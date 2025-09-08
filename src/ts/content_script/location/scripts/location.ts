@@ -9,96 +9,108 @@ class Class {
     private constructor() {}
 
     public current_location: string = '';
-    private params = new URLSearchParams(globalThis.location.search);
-    private tbm: string | null = this.params.get('tbm');
-    private tbs: string | null = this.params.get('tbs');
-    private udm: string | null = this.params.get('udm');
-    private search_string_is_present: boolean = globalThis.location.href.includes('search?');
-    private is_search_by_img_all_page: boolean = n(this.tbs) && this.tbs.includes('sbi:');
-    private imgs = sa<HTMLImageElement>('#search img');
 
-    public is_content_script_execution_page: boolean =
-        /^https:\/\/www\.google\.[a-z]+\/search\?.+$/.test(globalThis.location.href);
+    public is_content_script_execution_page: boolean = false;
+    public is_search_by_img_page: boolean = false;
+    public is_videos_page: boolean = false;
+    public is_books_page: boolean = false;
+    public is_news_page: boolean = false;
+    public is_shopping_page: boolean = false;
+    public is_web_page: boolean = false;
+    public is_forums_page: boolean = false;
+    public is_short_videos_page: boolean = false;
+    public is_imgs_page: boolean = false;
+    public is_all_page: boolean = false;
+    public is_native_infinite_scroll_results: boolean = false;
+    public is_native_favicon_results: boolean = false;
+    public is_native_favicon_results_show_or_hide_native_favicons: boolean = false;
+    public is_jump_to_related_searches_side_panel_results: boolean = false;
+    public is_page_number_side_panel_results: boolean = false;
 
-    public is_search_by_img_page: boolean =
-        this.search_string_is_present && this.is_search_by_img_all_page;
-
-    public is_videos_page: boolean = this.search_string_is_present && this.udm === '7';
-
-    public is_books_page: boolean = this.search_string_is_present && this.udm === '36';
-
-    public is_news_page: boolean = this.search_string_is_present && this.tbm === 'nws';
-
-    public is_shopping_page: boolean = this.search_string_is_present && this.udm === '28';
-
-    public is_web_page: boolean = this.search_string_is_present && this.udm === '14';
-
-    public is_forums_page: boolean = this.search_string_is_present && this.udm === '18';
-
-    public is_short_videos_page: boolean = this.search_string_is_present && this.udm === '39';
-
-    public is_imgs_page: boolean = n(this.imgs) ? this.imgs.length >= 100 : false;
-
-    public is_all_page: boolean =
-        !this.is_imgs_page &&
-        !this.is_search_by_img_page &&
-        !this.is_videos_page &&
-        !this.is_books_page &&
-        !this.is_news_page &&
-        !this.is_shopping_page &&
-        !this.is_web_page &&
-        !this.is_forums_page &&
-        !this.is_short_videos_page;
-
-    public is_native_infinite_scroll_results: boolean =
-        this.is_videos_page || this.is_shopping_page || this.is_short_videos_page;
-
-    public is_native_favicon_results: boolean =
-        this.is_all_page || this.is_forums_page || this.is_web_page;
-
-    public is_native_favicon_results_show_or_hide_native_favicons: boolean =
-        this.is_native_favicon_results || this.is_news_page;
-
-    public is_jump_to_related_searches_side_panel_results: boolean =
-        this.is_all_page ||
-        this.is_search_by_img_page ||
-        this.is_books_page ||
-        this.is_news_page ||
-        this.is_web_page ||
-        this.is_forums_page;
-
-    public is_page_number_side_panel_results: boolean =
-        this.is_all_page ||
-        this.is_search_by_img_page ||
-        this.is_books_page ||
-        this.is_news_page ||
-        this.is_web_page ||
-        this.is_forums_page;
-
-    public is_search_results: boolean =
-        this.is_all_page ||
-        this.is_search_by_img_page ||
-        this.is_videos_page ||
-        this.is_books_page ||
-        this.is_news_page ||
-        this.is_shopping_page ||
-        this.is_web_page ||
-        this.is_forums_page ||
-        this.is_short_videos_page;
-
-    public is_icons_search_results: boolean =
-        this.is_all_page ||
-        this.is_search_by_img_page ||
-        this.is_videos_page ||
-        this.is_news_page ||
-        this.is_shopping_page ||
-        this.is_web_page ||
-        this.is_forums_page;
-
-    public is_non_standard_search_results: boolean = this.is_news_page || this.is_shopping_page;
+    public is_search_results: boolean = false;
+    public is_icons_search_results: boolean = false;
+    public is_non_standard_search_results: boolean = false;
 
     public set_current_location = (): void =>
         err(() => {
+            const params = new URLSearchParams(globalThis.location.search);
+            const tbm: string | null = params.get('tbm');
+            const tbs: string | null = params.get('tbs');
+            const udm: string | null = params.get('udm');
+            const search_string_is_present: boolean = globalThis.location.href.includes('search?');
+            const is_search_by_img_all_page: boolean = n(tbs) && tbs.includes('sbi:');
+
+            this.is_content_script_execution_page =
+                /^https:\/\/www\.google\.[a-z]+\/search\?.+$/.test(globalThis.location.href);
+
+            this.is_search_by_img_page = search_string_is_present && is_search_by_img_all_page;
+            this.is_videos_page = search_string_is_present && udm === '7';
+            this.is_books_page = search_string_is_present && udm === '36';
+            this.is_news_page = search_string_is_present && tbm === 'nws';
+            this.is_shopping_page = search_string_is_present && udm === '28';
+            this.is_web_page = search_string_is_present && udm === '14';
+            this.is_forums_page = search_string_is_present && udm === '18';
+            this.is_short_videos_page = search_string_is_present && udm === '39';
+            this.is_imgs_page = search_string_is_present && udm === '2';
+
+            this.is_all_page =
+                !this.is_imgs_page &&
+                !this.is_search_by_img_page &&
+                !this.is_videos_page &&
+                !this.is_books_page &&
+                !this.is_news_page &&
+                !this.is_shopping_page &&
+                !this.is_web_page &&
+                !this.is_forums_page &&
+                !this.is_short_videos_page;
+
+            this.is_native_infinite_scroll_results =
+                this.is_videos_page || this.is_shopping_page || this.is_short_videos_page;
+
+            this.is_native_favicon_results =
+                this.is_all_page || this.is_forums_page || this.is_web_page;
+
+            this.is_native_favicon_results_show_or_hide_native_favicons =
+                this.is_native_favicon_results || this.is_news_page;
+
+            this.is_jump_to_related_searches_side_panel_results =
+                this.is_all_page ||
+                this.is_search_by_img_page ||
+                this.is_books_page ||
+                this.is_news_page ||
+                this.is_web_page ||
+                this.is_forums_page;
+
+            this.is_page_number_side_panel_results =
+                this.is_all_page ||
+                this.is_search_by_img_page ||
+                this.is_books_page ||
+                this.is_news_page ||
+                this.is_web_page ||
+                this.is_forums_page;
+
+            this.is_search_results =
+                this.is_all_page ||
+                this.is_search_by_img_page ||
+                this.is_videos_page ||
+                this.is_books_page ||
+                this.is_news_page ||
+                this.is_shopping_page ||
+                this.is_web_page ||
+                this.is_forums_page ||
+                this.is_short_videos_page;
+
+            this.is_icons_search_results =
+                this.is_all_page ||
+                this.is_search_by_img_page ||
+                this.is_videos_page ||
+                this.is_news_page ||
+                this.is_shopping_page ||
+                this.is_web_page ||
+                this.is_forums_page;
+
+            this.is_non_standard_search_results = this.is_news_page || this.is_shopping_page;
+
             if (this.is_search_by_img_page) {
                 this.current_location = 'search_by_img';
             } else if (this.is_all_page) {

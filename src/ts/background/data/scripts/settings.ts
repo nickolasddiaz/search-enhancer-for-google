@@ -33,6 +33,7 @@ class Class {
                     enable_infinite_scrolling: true,
                     enable_btn_is_visible: true,
                     jump_to_related_searches_btn_is_visible: true,
+                    ai_overview_is_visible: true,
                     page_indicator_is_visible: true,
                     page_separators_is_visible: true,
                     favicons_is_visible: true,

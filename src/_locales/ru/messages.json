@@ -35,6 +35,9 @@
     "server_locations_is_visible_label_text": {
         "message": "Показывать местоположение серверов"
     },
+    "ai_overview_is_visible_label_text": {
+        "message": "Показывать обзор от ИИ"
+    },
     "scroll_to_top_btn_is_visible_label_text": {
         "message": "Показывать кнопку «Вверх»"
     },

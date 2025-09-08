@@ -15,7 +15,6 @@ export const init = (): Promise<void> =>
     err_async(async () => {
         if (s_location.Location.is_content_script_execution_page) {
             x.insert_invisible_chars_in_title();
-            s_location.Location.set_current_location();
             s_infinite_scroll.Iframe.set_search_results_w_selector_var();
             s_tab_index.TabIndex.bind_set_input_type_f({
                 parent: document.body,

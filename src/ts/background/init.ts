@@ -11,7 +11,7 @@ export const init = (): Promise<void> =>
         await s_icons.Icons.generate_ip_to_country_arr();
 
         if (s_env.Env.is_dev()) {
-            ext.inject_js_and_css_in_content_script(
+            await ext.inject_js_and_css_in_content_script(
                 [
                     'env.js',
                     'content_script.js',
@@ -22,7 +22,7 @@ export const init = (): Promise<void> =>
                 ['content_script_css.css'],
             );
         } else {
-            ext.inject_js_and_css_in_content_script(
+            await ext.inject_js_and_css_in_content_script(
                 ['env.js', 'content_script.js'],
                 ['content_script_css.css'],
             );

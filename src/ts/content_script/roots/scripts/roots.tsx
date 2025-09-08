@@ -114,36 +114,41 @@ class Class {
                     append_only_to_preview_img_viewers?: boolean;
                 } = {}): void =>
                     err(() => {
-                        if (n(img_viewer) && !append_only_to_preview_img_viewers) {
-                            this.append_root({
-                                name,
-                                parent: img_viewer,
-                                i: 0,
-                                append_f_name: 'after',
-                                img_viewer_i: 'main_img_viewer',
-                            });
+                        if (
+                            n(img_viewer) &&
+                            s_el_parser.ElParser.preview_img_viewer_ws.length !== 0
+                        ) {
+                            if (!append_only_to_preview_img_viewers) {
+                                this.append_root({
+                                    name,
+                                    parent: img_viewer,
+                                    i: 0,
+                                    append_f_name: 'after',
+                                    img_viewer_i: 'main_img_viewer',
+                                });
+                            }
+
+                            s_el_parser.ElParser.preview_img_viewer_ws.forEach(
+                                (preview_img_viewer_ws: HTMLElement, i: number) => {
+                                    const preview_img_url: string | undefined =
+                                        s_el_parser.ElParser.get_preview_img_url({
+                                            img_viewer_i: i,
+                                        });
+
+                                    if (n(preview_img_url)) {
+                                        this.append_root({
+                                            name,
+                                            parent: preview_img_viewer_ws,
+                                            i: 0,
+                                            append_f_name: 'append',
+                                            img_viewer_i: i,
+                                        });
+                                    }
+                                },
+                            );
+
+                            s_theme.Theme.adapt_panel_to_dark_theme();
                         }
-
-                        s_el_parser.ElParser.preview_img_viewer_ws.forEach(
-                            (preview_img_viewer_ws: HTMLElement, i: number) => {
-                                const preview_img_url: string | undefined =
-                                    s_el_parser.ElParser.get_preview_img_url({
-                                        img_viewer_i: i,
-                                    });
-
-                                if (n(preview_img_url)) {
-                                    this.append_root({
-                                        name,
-                                        parent: preview_img_viewer_ws,
-                                        i: 0,
-                                        append_f_name: 'append',
-                                        img_viewer_i: i,
-                                    });
-                                }
-                            },
-                        );
-
-                        s_theme.Theme.adapt_panel_to_dark_theme();
                     }, 'seg_1093');
 
                 if (n(img_viewer)) {
