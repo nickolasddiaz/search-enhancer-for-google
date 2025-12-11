@@ -314,19 +314,17 @@ class Class {
 
                 if (n(links)) {
                     this.img_viewer = [...links].find((link: HTMLLinkElement): boolean =>
-                        err(() => {
-                            const img = sb<HTMLImageElement>(link, 'img');
-                            const inside_div = sb<HTMLElement>(link, 'div');
-
-                            if (n(img) && !n(inside_div)) {
-                                return (
-                                    Boolean(img.offsetWidth) && n(img.style) && n(img.style.height)
-                                );
-                            }
-
-                            return false;
-                        }, 'seg_1036'),
+                        err(
+                            () =>
+                                x.closest(
+                                    link,
+                                    '[style*="transform: translate3d(0px, 0px, 0px)"]:not([style*="display: none"])',
+                                ), // check for visibility
+                            'seg_1036',
+                        ),
                     );
+
+                    l(links, this.img_viewer);
                 }
             }
         }, 'seg_1037');
@@ -379,7 +377,7 @@ class Class {
 
                     imgs.forEach((img): void =>
                         err(() => {
-                            const link: HTMLLinkElement | undefined = x.closest(img, 'g-img');
+                            const link: HTMLLinkElement | undefined = x.closest(img, 'a');
 
                             if (n(link) && n(link.parentElement)) {
                                 this.preview_img_viewers.push(link);
