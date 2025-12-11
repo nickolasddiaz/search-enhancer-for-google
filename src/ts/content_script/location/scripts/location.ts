@@ -44,14 +44,14 @@ class Class {
                 /^https:\/\/www\.google\.[a-z]+\/search\?.+$/.test(globalThis.location.href);
 
             this.is_search_by_img_page = search_string_is_present && is_search_by_img_all_page;
-            this.is_videos_page = search_string_is_present && udm === '7';
-            this.is_books_page = search_string_is_present && udm === '36';
+            this.is_videos_page = udm === '7';
+            this.is_books_page = udm === '36';
             this.is_news_page = search_string_is_present && tbm === 'nws';
-            this.is_shopping_page = search_string_is_present && udm === '28';
-            this.is_web_page = search_string_is_present && udm === '14';
-            this.is_forums_page = search_string_is_present && udm === '18';
-            this.is_short_videos_page = search_string_is_present && udm === '39';
-            this.is_imgs_page = search_string_is_present && udm === '2';
+            this.is_shopping_page = udm === '28';
+            this.is_web_page = udm === '14';
+            this.is_forums_page = udm === '18';
+            this.is_short_videos_page = udm === '39';
+            this.is_imgs_page = udm === '2';
 
             this.is_all_page =
                 !this.is_imgs_page &&
@@ -132,6 +132,7 @@ class Class {
             } else if (this.is_imgs_page) {
                 this.current_location = 'imgs';
             }
+
         }, 'seg_64357');
 }
 
