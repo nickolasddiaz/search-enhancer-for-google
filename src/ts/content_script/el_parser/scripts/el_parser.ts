@@ -123,7 +123,8 @@ class Class {
                         ([...children] as HTMLElement[]).forEach((el_2: HTMLElement): void =>
                             err(() => {
                                 const font_size: number = x.get_numeric_css_val(el_2, 'font-size');
-                                const news_icon_selector: string = 'g-img';
+                                const news_icon_selector: string =
+                                    '[id^="dimg_6"], [width^="16"], [height^="16"]';
 
                                 if (
                                     !x.matches(el_2, `.${new s_suffix.Suffix('icons').result}`) &&

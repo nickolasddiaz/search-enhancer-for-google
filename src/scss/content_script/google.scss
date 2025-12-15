@@ -29,3 +29,13 @@ body.books_#{$app_id} #rso > div {
     background-color: red;
 }
 */
+
+.news_#{$app_id} {
+    display: inline-block !important;
+
+    [id^='dimg_6'],
+    [width^='16'],
+    [height^='16'] {
+        display: inline-block;
+    }
+}

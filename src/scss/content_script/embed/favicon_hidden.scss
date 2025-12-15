@@ -3,6 +3,8 @@
 
 .favicon_#{$app_id},
 .favicon_shadow_clone_#{$app_id},
-.news_#{$app_id} g-img {
+.news_#{$app_id} [id^='dimg_6'],
+.news_#{$app_id} [width^='16'],
+.news_#{$app_id} [height^='16'] {
     @include hidden;
 }
