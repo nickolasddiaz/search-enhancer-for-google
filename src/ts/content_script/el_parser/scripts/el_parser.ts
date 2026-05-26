@@ -324,8 +324,6 @@ class Class {
                             'seg_1036',
                         ),
                     );
-
-                    l(links, this.img_viewer);
                 }
             }
         }, 'seg_1037');
