@@ -174,6 +174,7 @@ class Class {
                                     this.last_iframe.contentDocument;
 
                                 if (n(iframe_doc)) {
+                                    this.retarget_iframe_links({ iframe_doc });
                                     x.css(
                                         'font_face',
                                         iframe_doc.head,
@@ -198,14 +199,18 @@ class Class {
         | Document
         | undefined =>
         err(() => {
-            if (n(this.last_iframe)) {
-                const iframe_doc: Document | null = n(cur_iframe_i)
-                    ? this.iframes[cur_iframe_i].contentDocument
-                    : this.last_iframe.contentDocument;
+            const cur_iframe: HTMLIFrameElement | undefined = n(cur_iframe_i)
+                ? this.iframes[cur_iframe_i]
+                : this.last_iframe;
 
-                if (n(iframe_doc)) {
-                    return iframe_doc;
-                }
+            if (!n(cur_iframe)) {
+                return undefined;
+            }
+
+            const iframe_doc: Document | null = cur_iframe.contentDocument;
+
+            if (n(iframe_doc)) {
+                return iframe_doc;
             }
 
             return undefined;
@@ -251,8 +256,12 @@ class Class {
     private resize_iframe = ({ cur_iframe_i }: { cur_iframe_i: number }): Promise<void> =>
         err_async(async () => {
             const scroll_top = document.documentElement.scrollTop;
-            const cur_iframe: HTMLIFrameElement = this.iframes[cur_iframe_i];
+            const cur_iframe: HTMLIFrameElement | undefined = this.iframes[cur_iframe_i];
             const iframe_doc: Document | undefined = this.get_iframe_doc({ cur_iframe_i });
+
+            if (!n(cur_iframe)) {
+                return;
+            }
 
             await globalThis.requestAnimationFrame(
                 async (): Promise<void> =>
@@ -323,6 +332,56 @@ class Class {
                 ? '#rso'
                 : '#search';
         }, 'seg_1237');
+
+    private retarget_iframe_links = ({ iframe_doc }: { iframe_doc: Document }): void =>
+        err(() => {
+            const retargeted_attr = 'data-seg-link-retargeted';
+
+            if (iframe_doc.documentElement.hasAttribute(retargeted_attr)) {
+                return;
+            }
+
+            iframe_doc.documentElement.setAttribute(retargeted_attr, 'true');
+
+            const links = iframe_doc.querySelectorAll('a');
+
+            if (n(links)) {
+                links.forEach((link: HTMLAnchorElement): void => {
+                    link.target = '_top';
+                });
+            }
+
+            iframe_doc.addEventListener(
+                'click',
+                (event: MouseEvent): void => {
+                    if (event.defaultPrevented || event.button !== 0) {
+                        return;
+                    }
+
+                    const target = event.target as HTMLElement | null;
+                    const link = target ? x.closest(target, 'a') : undefined;
+
+                    if (!n(link)) {
+                        return;
+                    }
+
+                    const { href } = link as HTMLAnchorElement;
+
+                    if (!href) {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    if (globalThis.top) {
+                        globalThis.top.location.href = href;
+                    } else {
+                        globalThis.location.href = href;
+                    }
+                },
+                true,
+            );
+        }, 'seg_1240');
 }
 
 export const Iframe = Class.get_instance();
