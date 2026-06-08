@@ -6,6 +6,7 @@ import {
     d_side_panel,
     s_actions,
     s_el_parser,
+    s_google_settings,
     s_location,
     s_roots,
     s_theme,
@@ -333,9 +334,21 @@ class Class {
                 : '#search';
         }, 'seg_1237');
 
-    private retarget_iframe_links = ({ iframe_doc }: { iframe_doc: Document }): void =>
+    private retarget_iframe_links = ({
+        iframe_doc,
+    }: {
+        iframe_doc: Document;
+    }): void => // Prevent search result links on the second and following pages opening in an iframe when "Results in a new window" option in Google search settings is off.
         err(() => {
-            const retargeted_attr = 'data-seg-link-retargeted';
+            if (
+                s_google_settings.GoogleSettings.open_results_in_new_window &&
+                !s_location.Location.is_books_page
+            ) {
+                // If "Results in a new window" option in Google search settings is on, let link open in a new tab. Always open results in "Books" in current tab.
+                return;
+            }
+
+            const retargeted_attr: string = new s_suffix.Suffix('data-seg-link-retargeted').result;
 
             if (iframe_doc.documentElement.hasAttribute(retargeted_attr)) {
                 return;
@@ -343,45 +356,48 @@ class Class {
 
             iframe_doc.documentElement.setAttribute(retargeted_attr, 'true');
 
-            const links = iframe_doc.querySelectorAll('a');
+            const links = sab<HTMLAnchorElement>(iframe_doc, 'a');
 
             if (n(links)) {
-                links.forEach((link: HTMLAnchorElement): void => {
-                    link.target = '_top';
-                });
+                links.forEach((link: HTMLAnchorElement): void =>
+                    err(() => {
+                        link.target = '_top';
+                    }, 'seg_1250'),
+                );
             }
 
             iframe_doc.addEventListener(
                 'click',
-                (event: MouseEvent): void => {
-                    if (event.defaultPrevented || event.button !== 0) {
-                        return;
-                    }
+                (e: MouseEvent): void =>
+                    err(() => {
+                        if (e.defaultPrevented || e.button !== 0) {
+                            return;
+                        }
 
-                    const target = event.target as HTMLElement | null;
-                    const link = target ? x.closest(target, 'a') : undefined;
+                        const target = e.target as HTMLElement | null;
+                        const link = n(target) ? x.closest(target, 'a') : undefined;
 
-                    if (!n(link)) {
-                        return;
-                    }
+                        if (!n(link)) {
+                            return;
+                        }
 
-                    const { href } = link as HTMLAnchorElement;
+                        const { href } = link as HTMLAnchorElement;
 
-                    if (!href) {
-                        return;
-                    }
+                        if (!href) {
+                            return;
+                        }
 
-                    event.preventDefault();
+                        e.preventDefault();
 
-                    if (globalThis.top) {
-                        globalThis.top.location.href = href;
-                    } else {
-                        globalThis.location.href = href;
-                    }
-                },
+                        if (globalThis.top) {
+                            globalThis.top.location.href = href;
+                        } else {
+                            globalThis.location.href = href;
+                        }
+                    }, 'seg_1251'),
                 true,
             );
-        }, 'seg_1240');
+        }, 'seg_1249');
 }
 
 export const Iframe = Class.get_instance();
